@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4075ddc98d8124eb9e6732411e75a3, type: 3}
+  m_Name: Footstep_Water_00
+  m_EditorClassIdentifier: 
+  data:
+    audioClips:
+      weightedObjects:
+      - weight: 0.182
+        contents: {fileID: 8300000, guid: ef668d53c70b2e54da5d600e0116b653, type: 3}
+      - weight: 0.182
+        contents: {fileID: 8300000, guid: d7ea1233f724d23458ae6451f1c010b6, type: 3}
+      - weight: 0.182
+        contents: {fileID: 8300000, guid: 8707f74ddcadbe548a9dee71db84bbc9, type: 3}
+      - weight: 0.091
+        contents: {fileID: 8300000, guid: a292f535c8ba4ec44b8a39245e65b8ed, type: 3}
+      - weight: 0.091
+        contents: {fileID: 8300000, guid: eccf90bfb6dc0e14e81c38293269f023, type: 3}
+      - weight: 0.091
+        contents: {fileID: 8300000, guid: 26d4b5e3db6a0ea409d2281cf2f51553, type: 3}
+      - weight: 0.091
+        contents: {fileID: 8300000, guid: 29a183558389c124cbcb48dc5942cd98, type: 3}
+      - weight: 0.091
+        contents: {fileID: 8300000, guid: 1060cb949072f114fa74e040ff6b22c6, type: 3}
+    loop: 0
+    soundId: 6b3b058a36941664d84e1090cd1ee611
+    standardSettings:
+      minPitch: 0.8
+      maxPitch: 1.2
+      minVolume: 0.5
+      maxVolume: 0.8
+      group: SFX
+    advancedSettings:
+      bypassEffects: 1
+      bypassListenerEffects: 1
+      bypassReverbZones: 1
+      reverbZoneMix: 1
+    spatialSettings:
+      stereoPanMin: 0
+      stereoPanMax: 0
+      is3D: 1
+      dopplerLevel: 0.65
+      spread: 0
+      volumeRolloff: 0
+      minDistance: 1
+      maxDistance: 600

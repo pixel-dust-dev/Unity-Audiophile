@@ -1,0 +1,19 @@
+{
+    "name": "PixelDust.Audiophile.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:02bdcf3e22747504eada7e64ce97fcb8",
+        "GUID:ca7b4963980f2814cbb088be23661f44"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

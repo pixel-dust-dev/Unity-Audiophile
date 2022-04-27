@@ -1,0 +1,16 @@
+{
+    "name": "PixelDust.Audiophile",
+    "rootNamespace": "",
+    "references": [
+        "GUID:69e313442607c504e9e62cffcff7ddba"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
