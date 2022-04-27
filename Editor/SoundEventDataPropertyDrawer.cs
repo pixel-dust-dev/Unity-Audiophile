@@ -141,6 +141,10 @@ namespace PixelDust.Audiophile
 
                 var found = groups.FirstOrDefault(x => x.name == groupProp.stringValue);
 
+                if(groupProp.hasMultipleDifferentValues)
+                {
+                    EditorGUI.showMixedValue = true;
+                }
                 int currIndex = found ? groups.IndexOf(found) : 0;
                 int newIndex = EditorGUI.Popup(position, groupProp.displayName, currIndex, groups.Select(x => $"{x.name}").ToArray());
                 string val = groups[newIndex].name;
@@ -148,6 +152,7 @@ namespace PixelDust.Audiophile
 
                 var propHeight = EditorGUI.GetPropertyHeight(groupProp, true);
                 position.y += propHeight + EditorGUIUtility.standardVerticalSpacing;
+                EditorGUI.showMixedValue = false;
             }
 
             {
@@ -165,6 +170,7 @@ namespace PixelDust.Audiophile
             var audioClipsProp = data.FindPropertyRelative("audioClips");
 
             Rect clipsPos = position;
+
             EditorGUI.PropertyField(clipsPos, audioClipsProp, new GUIContent("Clips"), true);
             var propHeight = EditorGUI.GetPropertyHeight(audioClipsProp, true);
             position.y += propHeight + EditorGUIUtility.standardVerticalSpacing;
@@ -204,26 +210,35 @@ namespace PixelDust.Audiophile
                 minValue = (float)System.Math.Round(minValue, 3);
                 maxValue = (float)System.Math.Round(maxValue, 3);
             }
-
-            if(units == AudiophileProjectSettings.Units.Linear)
+            if (units == AudiophileProjectSettings.Units.Linear)
             {
                 Rect minFieldRect = new Rect(propertyRect.x, propertyRect.y, floatFieldWidth, propertyRect.height);
+                EditorGUI.showMixedValue = minProp.hasMultipleDifferentValues;
                 minValue = EditorGUI.FloatField(minFieldRect, minValue, EditorStyles.miniBoldLabel);
+                EditorGUI.showMixedValue = false;
 
+                EditorGUI.showMixedValue = maxProp.hasMultipleDifferentValues;
                 Rect maxFieldRect = new Rect((propertyRect.x + propertyRect.width) - (floatFieldWidth), propertyRect.y, floatFieldWidth, propertyRect.height);
                 maxValue = EditorGUI.FloatField(maxFieldRect, maxValue, EditorStyles.miniBoldLabel);
+                EditorGUI.showMixedValue = false;
             }
             else if(units == AudiophileProjectSettings.Units.Decibels)
             {
                 Rect minFieldRect = new Rect(propertyRect.x, propertyRect.y, floatFieldWidth, propertyRect.height);
                 minValue = AudioHelper.DecibelToLinear(EditorGUI.FloatField(minFieldRect, AudioHelper.LinearToDecibel(minValue), EditorStyles.miniBoldLabel));
-
+                
                 Rect maxFieldRect = new Rect((propertyRect.x + propertyRect.width) - (floatFieldWidth), propertyRect.y, floatFieldWidth, propertyRect.height);
                 maxValue = AudioHelper.DecibelToLinear(EditorGUI.FloatField(maxFieldRect, AudioHelper.LinearToDecibel(maxValue), EditorStyles.miniBoldLabel));
             }
 
-            minProp.floatValue = minValue;
-            maxProp.floatValue = maxValue;
+            if (minValue != minProp.floatValue)
+            {
+                minProp.floatValue = minValue;
+            }
+            if(maxValue != maxProp.floatValue)
+            {
+                maxProp.floatValue = maxValue;
+            }
 
             position.y += ExtraEditorGUIUtility.SingleLineHeight();
             height += ExtraEditorGUIUtility.SingleLineHeight();

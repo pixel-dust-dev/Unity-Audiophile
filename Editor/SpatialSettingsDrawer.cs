@@ -86,8 +86,14 @@ namespace PixelDust.Audiophile
             toggle3DRect.x += spatialSettingsRect.width;
 
             var spatialTypeStrings = new string[] { "3D", "2D" };
+
+            if(is3DProp.hasMultipleDifferentValues)
+            {
+                EditorGUI.showMixedValue = true;
+            }
             int spatialType = GUI.Toolbar(toggle3DRect, is3DProp.boolValue ? 0 : 1, spatialTypeStrings, EditorStyles.miniButtonMid);
             is3DProp.boolValue = spatialType == 0 ? true : false;
+            EditorGUI.showMixedValue = false;
 
             EditorGUI.EndFoldoutHeaderGroup();
             position.y += ExtraEditorGUIUtility.SingleLineHeight();
