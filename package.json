@@ -1,6 +1,6 @@
 {
   "name": "com.pixeldust.com.pixel-dust.audiophile",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "displayName": "PixelDust Audiophile (alpha)",
   "description": "A productivity tool to speed up SFX workflows in Unity!",
   "unity": "2019.1",
@@ -10,9 +10,14 @@
   "licensesUrl": "https://example.com/licensing.html",
   "samples": [
     {
-      "displayName": "Samples",
+      "displayName": "Sound Events",
       "description": "Contains samples for SoundEvents.",
       "path": "Samples~/SoundEvents"
+    },
+    {
+      "displayName": "Sound Event Collections",
+      "description": "Contains samples for SoundEventCollections.",
+      "path": "Samples~/SoundEventCollections"
     }
   ],
   "keywords": [
@@ -25,5 +30,6 @@
     "email": "alistair.m.obrien@gmail.com",
     "url": "https://github.com/pixel-reverie"
   },
-  "type": "tool"
+  "type": "tool",
+  "hideInEditor": true
 }
