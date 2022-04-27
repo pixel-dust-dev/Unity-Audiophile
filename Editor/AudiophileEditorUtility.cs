@@ -116,7 +116,7 @@ namespace PixelDust.AudiophileEditor
             {
                 var arrayElement = soundEventsProp.GetArrayElementAtIndex(i);
                 var contentProp = arrayElement.FindPropertyRelative("contents");
-                var preset = contentProp.FindPropertyRelative("soundEventPreset");
+                var preset = contentProp.FindPropertyRelative("preset");
                 preset.objectReferenceValue = soundEvents[i];
                 var weightProp = arrayElement.FindPropertyRelative("weight");
                 weightProp.floatValue = 1;
