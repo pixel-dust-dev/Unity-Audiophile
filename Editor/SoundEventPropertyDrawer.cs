@@ -63,13 +63,11 @@ namespace PixelDust.Audiophile
                 {
                     EditorGUI.indentLevel++;
                     {
-                        if (preset.objectReferenceValue == null)
-                        {
-                            EditorGUI.PropertyField(position, preset, true);
-                            position.y += ExtraEditorGUIUtility.SingleLineHeight();
 
-                            EditorGUI.PropertyField(position, dataProp, true);
-                        }
+                        EditorGUI.PropertyField(position, preset, true);
+                        position.y += ExtraEditorGUIUtility.SingleLineHeight();
+
+                        EditorGUI.PropertyField(position, dataProp, true);
                     }
                     EditorGUI.indentLevel--;
                 }
