@@ -30,10 +30,6 @@ namespace PixelDust.Audiophile
                     height += EditorGUI.GetPropertyHeight(data);
                     height += ExtraEditorGUIUtility.SingleLineHeight();
                 }
-                else
-                {
-                    height += ExtraEditorGUIUtility.SingleLineHeight();
-                }
             }
 
             return height;
@@ -52,32 +48,38 @@ namespace PixelDust.Audiophile
             GUIContent newLabel = label;
             Texture2D tex = EditorGUIUtility.Load("se.png") as Texture2D;
             newLabel.image = tex;
-            property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
-            EditorGUI.EndFoldoutHeaderGroup();
-            position.y += ExtraEditorGUIUtility.SingleLineHeight();
-
-            //Get the data since we need to delete its managed reference if using a preset
-            //And create its managed reference if not using a preset
+            
+            var preset = property.FindPropertyRelative("preset");
             SerializedProperty dataProp = property.FindPropertyRelative("data");
             SerializedProperty selDataProp = dataProp;
-            //Determine where we are receiving the data from
-            var preset = property.FindPropertyRelative("preset");
 
-
-            if (property.isExpanded)
+            if (preset.objectReferenceValue == null)
             {
-                EditorGUI.indentLevel++;
-                {
-                    EditorGUI.PropertyField(position, preset, true);
-                    position.y += ExtraEditorGUIUtility.SingleLineHeight();
+                property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
+                EditorGUI.EndFoldoutHeaderGroup();
+                position.y += ExtraEditorGUIUtility.SingleLineHeight();
 
-                    if (preset.objectReferenceValue == null)
+                if (property.isExpanded)
+                {
+                    EditorGUI.indentLevel++;
                     {
-                        EditorGUI.PropertyField(position, dataProp, true);
+                        if (preset.objectReferenceValue == null)
+                        {
+                            EditorGUI.PropertyField(position, preset, true);
+                            position.y += ExtraEditorGUIUtility.SingleLineHeight();
+
+                            EditorGUI.PropertyField(position, dataProp, true);
+                        }
                     }
+                    EditorGUI.indentLevel--;
                 }
-                EditorGUI.indentLevel--;
             }
+            else
+            {
+                EditorGUI.PropertyField(headerRect, preset, label, true);
+            }
+
+            
 
             if (preset.objectReferenceValue != null)
             {
