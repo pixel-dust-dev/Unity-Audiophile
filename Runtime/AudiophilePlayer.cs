@@ -10,10 +10,16 @@ namespace PixelDust.Audiophile
         private AudiophilePlayer audiophilePlayer;
         private AudiophilePlayer AudiophilePlayer => audiophilePlayer;
 
+        public float Volume => audiophilePlayer ? audiophilePlayer.audioSource.volume : 0;
+        public float Pitch => audiophilePlayer ? audiophilePlayer.audioSource.pitch : 0;
+
+        public event Action onLoop;
+
         public AudiophilePlayResult(AudiophilePlayer audiophilePlayer)
         {
             this.audiophilePlayer = audiophilePlayer;
             this.audiophilePlayer.onStopped += OnStopped;
+            this.audiophilePlayer.onLooped += () => onLoop?.Invoke();
         }
 
         private void OnStopped()
@@ -34,28 +40,30 @@ namespace PixelDust.Audiophile
             }
         }
 
-        public void SetPitch(float pitch)
+        public AudiophilePlayResult SetOverridePitch(float? pitch)
         {
             if (this.audiophilePlayer)
             {
-                this.audiophilePlayer.audioSource.pitch = pitch;
+                this.audiophilePlayer.SetOverridePitch(pitch);
             }
             else
             {
                 Debug.Log("Audiophile - Audiophile player is null");
             }
+            return this;
         }
 
-        public void SetVolume(float volume)
+        public AudiophilePlayResult SetOverrideVolume(float? volume)
         {
             if(this.audiophilePlayer)
             {
-                this.audiophilePlayer.audioSource.volume = volume;
+                this.audiophilePlayer.SetOverrideVolume(volume);
             }
             else
             {
                 Debug.Log("Audiophile - Audiophile player is null");
             }
+            return this;
         }
     }
 
@@ -72,7 +80,12 @@ namespace PixelDust.Audiophile
         public bool IsPlaying => isPlaying;
 
         SoundEventData seData = null;
+        private float? overrideVolume = null;
+        private float? overridePitch = null;
+
         public event Action onStopped;
+        public event Action onLooped;
+
 
         public void Awake()
         {
@@ -92,8 +105,8 @@ namespace PixelDust.Audiophile
 
             this.id = id;
 
-            audioSource.volume = UnityEngine.Random.Range(soundEventData.StandardSettings.MinVolume, soundEventData.StandardSettings.MaxVolume);
-            audioSource.pitch = UnityEngine.Random.Range(soundEventData.StandardSettings.MinPitch, soundEventData.StandardSettings.MaxPitch);
+            audioSource.volume = overrideVolume ?? UnityEngine.Random.Range(soundEventData.StandardSettings.MinVolume, soundEventData.StandardSettings.MaxVolume);
+            audioSource.pitch = overridePitch ?? UnityEngine.Random.Range(soundEventData.StandardSettings.MinPitch, soundEventData.StandardSettings.MaxPitch);
             audioSource.outputAudioMixerGroup = SoundManager.GetMixerGroup(soundEventData.StandardSettings.Group);
 
             //Spatial Type
@@ -131,10 +144,11 @@ namespace PixelDust.Audiophile
         {
             if(isPlaying)
             {
-                if(!this.audioSource.isPlaying)
+                if(this.audioSource != null && !this.audioSource.isPlaying)
                 {
                     if (loop)
                     {
+                        onLooped?.Invoke();
                         Play(seData, this.id);
                         return;
                     }
@@ -150,6 +164,26 @@ namespace PixelDust.Audiophile
 
             this.onStopped?.Invoke();
             this.onStopped = null;
+            this.onLooped = null;
+        }
+
+        internal void SetOverrideVolume(float? volume)
+        {
+            if(volume != null)
+            {
+                this.overrideVolume = volume;
+                this.audioSource.volume = volume.Value;
+
+            }
+        }
+
+        internal void SetOverridePitch(float? pitch)
+        {
+            if (pitch != null)
+            {
+                this.overridePitch = pitch;
+                this.audioSource.pitch = pitch.Value;
+            }
         }
     }
 }
