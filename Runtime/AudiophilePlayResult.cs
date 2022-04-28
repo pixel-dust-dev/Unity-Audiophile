@@ -1,0 +1,61 @@
+﻿using System;
+using UnityEngine;
+
+namespace PixelDust.Audiophile
+{
+    public class AudiophilePlayResult
+    {
+        private AudiophilePlayer audiophilePlayer;
+        private AudiophilePlayer AudiophilePlayer => audiophilePlayer;
+
+        public float? Volume
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.audioSource.volume : 0;
+            }
+            set
+            {
+                this.audiophilePlayer.SetOverrideVolume(value);
+            }
+        }
+
+        public float? Pitch
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.audioSource.pitch : 0;
+            }
+            set
+            {
+                this.audiophilePlayer.SetOverridePitch(value);
+            }
+        }
+
+        public event Action onLoop;
+
+        public AudiophilePlayResult(AudiophilePlayer audiophilePlayer)
+        {
+            this.audiophilePlayer = audiophilePlayer;
+            this.audiophilePlayer.onStopped += OnStopped;
+            this.audiophilePlayer.onLooped += () => onLoop?.Invoke();
+        }
+
+        private void OnStopped()
+        {
+            audiophilePlayer = null;
+        }
+
+        public void Stop()
+        {
+            if (this.audiophilePlayer)
+            {
+                this.audiophilePlayer.Stop();
+            }
+            else
+            {
+                Debug.Log("Audiophile - Audiophile player is null");
+            }
+        }
+    }
+}
