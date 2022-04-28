@@ -109,9 +109,9 @@ namespace PixelDust.Audiophile
         /// <param name="soundEvents"></param>
         /// <param name="position"></param>
         /// <returns></returns>
-        public static List<string> ProcessSounds(IEnumerable<SoundEvent> soundEvents, Vector3 position)
+        public static List<AudiophilePlayResult> ProcessSounds(IEnumerable<SoundEvent> soundEvents, Vector3 position)
         {
-            List<string> idList = new List<string>();
+            List<AudiophilePlayResult> audiophilePlayResults = new List<AudiophilePlayResult>();
 
             var enumerator = soundEvents.GetEnumerator();
             while (enumerator.MoveNext())
@@ -119,11 +119,11 @@ namespace PixelDust.Audiophile
                 var id = ProcessSound(enumerator.Current, position);
                 if (id != null)
                 {
-                    idList.Add(id);
+                    audiophilePlayResults.Add(id);
                 }
             }
 
-            return idList;
+            return audiophilePlayResults;
         }
 
         /// <summary>
@@ -133,12 +133,12 @@ namespace PixelDust.Audiophile
         /// <param name="position"></param>
         /// <param name="overrideId"></param>
         /// <returns></returns>
-        public static string ProcessSound(SoundEvent soundEvent, Vector3? position = null, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEvent soundEvent, Vector3? position = null, string overrideId = null)
         {
             return ProcessSound(soundEvent.Data, position, overrideId);
         }
 
-        public static string ProcessSound(SoundEventData soundEventData, Vector3? position = null, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, string overrideId = null)
         {
             var id = overrideId;
             if (string.IsNullOrEmpty(id))
@@ -156,15 +156,15 @@ namespace PixelDust.Audiophile
 
             audiophilePlayer.transform.position = position.HasValue ? position.Value : Vector3.zero;
 
-            audiophilePlayer.Play(soundEventData);
-            
+            audiophilePlayer.Play(soundEventData, id);
+
             if (!playingAudioPhilePlayers.ContainsKey(id))
             {
                 playingAudioPhilePlayers.Add(id, new List<AudiophilePlayer>());
             }
             playingAudioPhilePlayers[id].Add(audiophilePlayer);
 
-            return id;
+            return new AudiophilePlayResult(audiophilePlayer);
         }
         #endregion
 

@@ -5,9 +5,66 @@ using UnityEngine;
 
 namespace PixelDust.Audiophile
 {
+    public class AudiophilePlayResult
+    {
+        private AudiophilePlayer audiophilePlayer;
+        private AudiophilePlayer AudiophilePlayer => audiophilePlayer;
+
+        public AudiophilePlayResult(AudiophilePlayer audiophilePlayer)
+        {
+            this.audiophilePlayer = audiophilePlayer;
+            this.audiophilePlayer.onStopped += OnStopped;
+        }
+
+        private void OnStopped()
+        {
+            Debug.Log("Stopped");
+            audiophilePlayer = null;
+        }
+
+        public void Stop()
+        {
+            if (this.audiophilePlayer)
+            {
+                this.audiophilePlayer.Stop();
+            }
+            else
+            {
+                Debug.Log("Audiophile - Audiophile player is null");
+            }
+        }
+
+        public void SetPitch(float pitch)
+        {
+            if (this.audiophilePlayer)
+            {
+                this.audiophilePlayer.audioSource.pitch = pitch;
+            }
+            else
+            {
+                Debug.Log("Audiophile - Audiophile player is null");
+            }
+        }
+
+        public void SetVolume(float volume)
+        {
+            if(this.audiophilePlayer)
+            {
+                this.audiophilePlayer.audioSource.volume = volume;
+            }
+            else
+            {
+                Debug.Log("Audiophile - Audiophile player is null");
+            }
+        }
+    }
+
     [ExecuteInEditMode]
     public class AudiophilePlayer : MonoBehaviour
     {
+        public string Id => id;
+        private string id;
+
         public bool loop;
         public AudioSource audioSource;
 
@@ -15,6 +72,7 @@ namespace PixelDust.Audiophile
         public bool IsPlaying => isPlaying;
 
         SoundEventData seData = null;
+        public event Action onStopped;
 
         public void Awake()
         {
@@ -26,11 +84,13 @@ namespace PixelDust.Audiophile
 #endif
         }
 
-        public void Play(SoundEventData soundEventData)
+        public void Play(SoundEventData soundEventData, string id)
         {
             seData = soundEventData;
             this.loop = soundEventData.Loop;
             audioSource.loop = false;
+
+            this.id = id;
 
             audioSource.volume = UnityEngine.Random.Range(soundEventData.StandardSettings.MinVolume, soundEventData.StandardSettings.MaxVolume);
             audioSource.pitch = UnityEngine.Random.Range(soundEventData.StandardSettings.MinPitch, soundEventData.StandardSettings.MaxPitch);
@@ -75,7 +135,7 @@ namespace PixelDust.Audiophile
                 {
                     if (loop)
                     {
-                        Play(seData);
+                        Play(seData, this.id);
                         return;
                     }
                     Stop();
@@ -87,6 +147,9 @@ namespace PixelDust.Audiophile
         {
             this.audioSource.Stop();
             this.isPlaying = false;
+
+            this.onStopped?.Invoke();
+            this.onStopped = null;
         }
     }
 }
