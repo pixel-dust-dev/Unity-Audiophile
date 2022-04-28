@@ -55,8 +55,8 @@ namespace PixelDust.Audiophile
         public float MaxVolume => maxVolume;
 
         [SerializeField]
-        private string group;
-        public string Group => group;
+        private UnityEngine.Audio.AudioMixerGroup group;
+        public UnityEngine.Audio.AudioMixerGroup Group => group;
     }
 
     [System.Serializable]

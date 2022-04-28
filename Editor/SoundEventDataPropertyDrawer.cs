@@ -135,25 +135,32 @@ namespace PixelDust.Audiophile
             var maxPitchProp = standardSettingsProp.FindPropertyRelative("maxPitch");
             DrawRangeSlider(ref position, new GUIContent("Pitch"), minPitchProp, maxPitchProp, -3, 3, AudiophileProjectSettings.Units.Linear);
 
-            var groups = AudiophileEditor.AudiophileEditorUtility.GetMixerGroups();
             {
                 var groupProp = standardSettingsProp.FindPropertyRelative("group");
-
-                var found = groups.FirstOrDefault(x => x.name == groupProp.stringValue);
-
-                if(groupProp.hasMultipleDifferentValues)
-                {
-                    EditorGUI.showMixedValue = true;
-                }
-                int currIndex = found ? groups.IndexOf(found) : 0;
-                int newIndex = EditorGUI.Popup(position, groupProp.displayName, currIndex, groups.Select(x => $"{x.name}").ToArray());
-                string val = groups[newIndex].name;
-                groupProp.stringValue = groups[newIndex].name;
-
+                EditorGUI.PropertyField(position, groupProp);
                 var propHeight = EditorGUI.GetPropertyHeight(groupProp, true);
                 position.y += propHeight + EditorGUIUtility.standardVerticalSpacing;
-                EditorGUI.showMixedValue = false;
             }
+
+            //var groups = AudiophileEditor.AudiophileEditorUtility.GetMixerGroups();
+            //{
+            //    var groupProp = standardSettingsProp.FindPropertyRelative("group");
+
+            //    var found = groups.FirstOrDefault(x => x.name == groupProp.stringValue);
+
+            //    if(groupProp.hasMultipleDifferentValues)
+            //    {
+            //        EditorGUI.showMixedValue = true;
+            //    }
+            //    int currIndex = found ? groups.IndexOf(found) : 0;
+            //    int newIndex = EditorGUI.Popup(position, groupProp.displayName, currIndex, groups.Select(x => $"{x.name}").ToArray());
+            //    string val = groups[newIndex].name;
+            //    groupProp.stringValue = groups[newIndex].name;
+
+            //    var propHeight = EditorGUI.GetPropertyHeight(groupProp, true);
+            //    position.y += propHeight + EditorGUIUtility.standardVerticalSpacing;
+            //    EditorGUI.showMixedValue = false;
+            //}
 
             {
                 var loopProp = data.FindPropertyRelative("loop");

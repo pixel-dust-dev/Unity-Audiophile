@@ -102,7 +102,7 @@ namespace PixelDust.Audiophile
 
             audioSource.volume = overrideVolume ?? UnityEngine.Random.Range(soundEventData.StandardSettings.MinVolume, soundEventData.StandardSettings.MaxVolume);
             audioSource.pitch = overridePitch ?? UnityEngine.Random.Range(soundEventData.StandardSettings.MinPitch, soundEventData.StandardSettings.MaxPitch);
-            audioSource.outputAudioMixerGroup = SoundManager.GetMixerGroup(soundEventData.StandardSettings.Group);
+            audioSource.outputAudioMixerGroup = soundEventData.StandardSettings.Group;
 
             //Spatial Type
             audioSource.spatialBlend = soundEventData.SpatialSettings.Is3D ? 1 : 0;
