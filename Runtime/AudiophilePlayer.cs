@@ -45,7 +45,6 @@ namespace PixelDust.Audiophile
 
         private void OnStopped()
         {
-            Debug.Log("Stopped");
             audiophilePlayer = null;
         }
 
