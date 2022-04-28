@@ -10,8 +10,29 @@ namespace PixelDust.Audiophile
         private AudiophilePlayer audiophilePlayer;
         private AudiophilePlayer AudiophilePlayer => audiophilePlayer;
 
-        public float Volume => audiophilePlayer ? audiophilePlayer.audioSource.volume : 0;
-        public float Pitch => audiophilePlayer ? audiophilePlayer.audioSource.pitch : 0;
+        public float? Volume
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.audioSource.volume : 0;
+            }
+            set
+            {
+                this.audiophilePlayer.SetOverrideVolume(value);
+            }
+        }
+
+        public float? Pitch
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.audioSource.pitch : 0;
+            }
+            set
+            {
+                this.audiophilePlayer.SetOverridePitch(value);
+            }
+        }
 
         public event Action onLoop;
 
@@ -38,32 +59,6 @@ namespace PixelDust.Audiophile
             {
                 Debug.Log("Audiophile - Audiophile player is null");
             }
-        }
-
-        public AudiophilePlayResult SetOverridePitch(float? pitch)
-        {
-            if (this.audiophilePlayer)
-            {
-                this.audiophilePlayer.SetOverridePitch(pitch);
-            }
-            else
-            {
-                Debug.Log("Audiophile - Audiophile player is null");
-            }
-            return this;
-        }
-
-        public AudiophilePlayResult SetOverrideVolume(float? volume)
-        {
-            if(this.audiophilePlayer)
-            {
-                this.audiophilePlayer.SetOverrideVolume(volume);
-            }
-            else
-            {
-                Debug.Log("Audiophile - Audiophile player is null");
-            }
-            return this;
         }
     }
 
