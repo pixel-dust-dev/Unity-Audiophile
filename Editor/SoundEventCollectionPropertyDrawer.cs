@@ -50,11 +50,12 @@ namespace PixelDust.Audiophile
             //Determine where we are receiving the data from
             var preset = property.FindPropertyRelative("preset");
 
-            if(preset.objectReferenceValue == null)
+            GUIContent newLabel = label;
+            Texture2D tex = Resources.Load("se-col") as Texture2D;
+            newLabel.image = tex;
+
+            if (preset.objectReferenceValue == null)
             {
-                GUIContent newLabel = label;
-                Texture2D tex = EditorGUIUtility.Load("se-col.png") as Texture2D;
-                newLabel.image = tex;
                 property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
                 EditorGUI.EndFoldoutHeaderGroup();
                 position.y += ExtraEditorGUIUtility.SingleLineHeight();
@@ -73,7 +74,7 @@ namespace PixelDust.Audiophile
             }
             else
             {
-                EditorGUI.PropertyField(headerRect, preset, label, true);
+                EditorGUI.PropertyField(headerRect, preset, newLabel, true);
             }
 
             if (preset.objectReferenceValue != null)

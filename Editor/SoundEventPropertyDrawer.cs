@@ -46,7 +46,7 @@ namespace PixelDust.Audiophile
             headerRect.width -= PLAY_BUTTON_WIDTH * 2 + PLAY_BUTTON_GAP;
 
             GUIContent newLabel = label;
-            Texture2D tex = EditorGUIUtility.Load("se.png") as Texture2D;
+            Texture2D tex = Resources.Load("se") as Texture2D;
             newLabel.image = tex;
             
             var preset = property.FindPropertyRelative("preset");
