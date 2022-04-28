@@ -93,13 +93,13 @@ namespace PixelDust.Audiophile
         /// <param name="id">The Id of the sound</param>
         public static void StopSound(string id)
         {
-            if (playingAudioSources.ContainsKey(id))
+            if (playingAudioPhilePlayers.ContainsKey(id))
             {
-                foreach (var audioSource in playingAudioSources[id])
+                foreach (var audioSource in playingAudioPhilePlayers[id])
                 {
                     audioSource.Stop();
                 }
-                playingAudioSources.Remove(id);
+                playingAudioPhilePlayers.Remove(id);
             }
         }
 
@@ -150,51 +150,19 @@ namespace PixelDust.Audiophile
                 id = Guid.NewGuid().ToString();
             }
 
-            AudioSource audioSource;
-            audioSource = GetAudioSource();
-            if (audioSource == null) { Debug.Log("Pool overflowed."); return null; }
+            AudiophilePlayer audiophilePlayer;
+            audiophilePlayer = GetAudioPhilePlayer();
+            if (audiophilePlayer == null) { Debug.Log("Pool overflowed."); return null; }
 
-            audioSource.transform.position = position.HasValue ? position.Value : Vector3.zero;
-            audioSource.volume = Random.Range(soundEventData.StandardSettings.MinVolume, soundEventData.StandardSettings.MaxVolume);
-            audioSource.pitch = Random.Range(soundEventData.StandardSettings.MinPitch, soundEventData.StandardSettings.MaxPitch);
-            audioSource.outputAudioMixerGroup = GetGroup(soundEventData.StandardSettings.Group);
-            audioSource.loop = soundEventData.Loop;
-            //int index = Random.Range(0, soundEventData.AudioClips.Length);
+            audiophilePlayer.transform.position = position.HasValue ? position.Value : Vector3.zero;
 
-            //Spatial Type
-            audioSource.spatialBlend = soundEventData.SpatialSettings.Is3D ? 1 : 0;
-
-            //3D
-            audioSource.dopplerLevel = soundEventData.SpatialSettings.DopplerLevel;
-            audioSource.spread = soundEventData.SpatialSettings.Spread;
-            audioSource.rolloffMode = soundEventData.SpatialSettings.VolumeRolloff;
-            audioSource.minDistance = soundEventData.SpatialSettings.MinDistance;
-            audioSource.maxDistance = soundEventData.SpatialSettings.MaxDistance;
-
-            //2D
-            audioSource.panStereo = Random.Range(soundEventData.SpatialSettings.StereoPanMin, soundEventData.SpatialSettings.StereoPanMax);
-
-            //Advanced
-            audioSource.bypassEffects = soundEventData.AdvancedSettings.BypassEffects;
-            audioSource.bypassListenerEffects = soundEventData.AdvancedSettings.BypassListenerEffects;
-            audioSource.bypassReverbZones = soundEventData.AdvancedSettings.BypassReverbZones;
-            audioSource.reverbZoneMix = soundEventData.AdvancedSettings.ReverbZoneMix;
-
-            AudioClip clip = soundEventData.AudioClips.GetRandom();
-
-            audioSource.clip = clip;
-
-            if (clip != null)
+            audiophilePlayer.Play(soundEventData);
+            
+            if (!playingAudioPhilePlayers.ContainsKey(id))
             {
-                audioSource.gameObject.name = clip.name + " - vol: " + audioSource.volume + " - pitch: " + audioSource.pitch;
-                audioSource.Play();
+                playingAudioPhilePlayers.Add(id, new List<AudiophilePlayer>());
             }
-
-            if (!playingAudioSources.ContainsKey(id))
-            {
-                playingAudioSources.Add(id, new List<AudioSource>());
-            }
-            playingAudioSources[id].Add(audioSource);
+            playingAudioPhilePlayers[id].Add(audiophilePlayer);
 
             return id;
         }
@@ -204,19 +172,19 @@ namespace PixelDust.Audiophile
         private static AudioMixer Mixer => Audiophile.AudiophileProjectSettings.AudioMixer;
 
         
-        private AudioSource[] audioSources;
+        private AudiophilePlayer[] audiophilePlayers;
         // Collection checks will throw errors if we try to release an item that is already in the pool.
         
         [SerializeField]
         private int poolSize = 10;
 
-        private AudioSource musicSource;
+        private AudiophilePlayer musicSource;
 
-        private AudioSource ambientSource;
+        private AudiophilePlayer ambientSource;
 
-        private static Dictionary<string, List<AudioSource>> playingAudioSources = new Dictionary<string, List<AudioSource>>();
+        private static Dictionary<string, List<AudiophilePlayer>> playingAudioPhilePlayers = new Dictionary<string, List<AudiophilePlayer>>();
         
-        private static AudioMixerGroup GetGroup(string group)
+        public static AudioMixerGroup GetMixerGroup(string group)
         {
             if (SoundManager.Mixer == null) { Debug.Log("NO MIXER"); return null; }
             return GetFirstGroup(group);
@@ -239,17 +207,17 @@ namespace PixelDust.Audiophile
             ambientSource = MakeSource("AmbientAudioSource");
             ambientSource.loop = true;
 
-            audioSources = new AudioSource[poolSize];
+            audiophilePlayers = new AudiophilePlayer[poolSize];
 
             for (int i = 0; i < poolSize; i++)
             {
-                audioSources[i] = MakeSource($"AudioSource_{i}");
+                audiophilePlayers[i] = MakeSource($"AudioSource_{i}");
             }
         }
 
-        private AudioSource MakeSource(string name)
+        private AudiophilePlayer MakeSource(string name)
         {
-            AudioSource newSource = new GameObject(name).AddComponent<AudioSource>();
+            AudiophilePlayer newSource = new GameObject(name).AddComponent<AudiophilePlayer>();
 
             newSource.transform.SetParent(this.transform);
 
@@ -262,21 +230,21 @@ namespace PixelDust.Audiophile
             return newSource;
         }
 
-        private static AudioSource GetAudioSource()
+        private static AudiophilePlayer GetAudioPhilePlayer()
         {
-            for (int i = 0; i < Instance.audioSources.Length; i++)
+            for (int i = 0; i < Instance.audiophilePlayers.Length; i++)
             {
-                if (!Instance.audioSources[i].isPlaying)
+                if (!Instance.audiophilePlayers[i].IsPlaying)
                 {
-                    foreach (var item in playingAudioSources.Where(kvp => kvp.Value.Contains(Instance.audioSources[i])).ToList())
+                    foreach (var item in playingAudioPhilePlayers.Where(kvp => kvp.Value.Contains(Instance.audiophilePlayers[i])).ToList())
                     {
-                        playingAudioSources[item.Key].Remove(Instance.audioSources[i]);
-                        if (playingAudioSources[item.Key].Count == 0)
+                        playingAudioPhilePlayers[item.Key].Remove(Instance.audiophilePlayers[i]);
+                        if (playingAudioPhilePlayers[item.Key].Count == 0)
                         {
-                            playingAudioSources.Remove(item.Key);
+                            playingAudioPhilePlayers.Remove(item.Key);
                         }
                     }
-                    return Instance.audioSources[i];
+                    return Instance.audiophilePlayers[i];
                 }
             }
             return null;

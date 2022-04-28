@@ -55,7 +55,7 @@ namespace PixelDust.Audiophile
                 menuAction: ShowSpatialMenu,
                 menuIcon: SoundEventDataPropertyDrawer.PresetStyle());
 
-            void ShowSpatialMenu(Rect position)
+            void ShowSpatialMenu(Rect pos)
             {
                 var menu = new GenericMenu();
 
@@ -65,7 +65,7 @@ namespace PixelDust.Audiophile
                     menu.AddItem(new GUIContent($"{i} : {name}"), false, OnSpatialResetClicked, i);
                 }
 
-                menu.DropDown(position);
+                menu.DropDown(pos);
             }
 
             void OnSpatialResetClicked(object index)

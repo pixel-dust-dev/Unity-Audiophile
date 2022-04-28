@@ -17,6 +17,11 @@ namespace PixelDust.Audiophile
         private SoundEventData data;
         public SoundEventData Data => preset != null ? preset.Data : data;
 
+        public void Stop()
+        {
+            SoundManager.StopSound(Data.SoundId);
+        }
+
         public void PlayAt(Vector3 position, string overrideId = null)
         {
             SoundManager.ProcessSound(this, position, overrideId);
