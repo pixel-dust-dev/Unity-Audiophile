@@ -20,6 +20,10 @@ namespace PixelDust.Audiophile
         {
             audioSource = this.gameObject.AddComponent<AudioSource>();
             audioSource.playOnAwake = false;
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.update += Update;
+#endif
         }
 
         public void Play(SoundEventData soundEventData)
@@ -65,7 +69,6 @@ namespace PixelDust.Audiophile
 
         public void Update()
         {
-            Debug.Log("Playing");
             if(isPlaying)
             {
                 if(!this.audioSource.isPlaying)
