@@ -15,20 +15,20 @@ namespace PixelDust.Audiophile
         private SoundEventCollectionData data;
         public SoundEventCollectionData Data => preset != null ? preset.Data : data;
 
-        public void Play(string overrideId = null)
+        public void Play(string overrideId = null, ulong delay = 0)
         {
-            PlayAt(Vector3.zero, overrideId);
+            PlayAt(Vector3.zero, delay, overrideId);
         }
 
-        public void PlayAt(Vector3 position, string overrideId = null)
+        public void PlayAt(Vector3 position, ulong delay = 0, string overrideId = null)
         {
-            Data.PlayAt(position, overrideId);
+            Data.PlayAt(position, delay, overrideId);
         }
 
-        public void PlayAt(Transform transform, string overrideId = null)
+        public void PlayAt(Transform transform, ulong delay = 0, string overrideId = null)
         {
             Vector3 position = transform != null ? transform.position : Vector3.zero;
-            PlayAt(position, overrideId);
+            PlayAt(position, delay, overrideId);
         }
     }
 }

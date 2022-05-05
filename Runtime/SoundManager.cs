@@ -133,13 +133,15 @@ namespace PixelDust.Audiophile
         /// <param name="position"></param>
         /// <param name="overrideId"></param>
         /// <returns></returns>
-        public static AudiophilePlayResult ProcessSound(SoundEvent soundEvent, Vector3? position = null, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEvent soundEvent, Vector3? position = null, ulong delay = 0, string overrideId = null)
         {
-            return ProcessSound(soundEvent.Data, position, overrideId);
+            return ProcessSound(soundEvent.Data, position, delay, overrideId);
         }
 
-        public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, ulong delay = 0, string overrideId = null)
         {
+            delay = 2;
+
             var id = overrideId;
             if (string.IsNullOrEmpty(id))
             {
@@ -156,7 +158,7 @@ namespace PixelDust.Audiophile
 
             audiophilePlayer.transform.position = position.HasValue ? position.Value : Vector3.zero;
 
-            audiophilePlayer.Play(soundEventData, id);
+            audiophilePlayer.Play(soundEventData, delay, id);
 
             if (!playingAudioPhilePlayers.ContainsKey(id))
             {

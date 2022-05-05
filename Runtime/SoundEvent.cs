@@ -22,20 +22,20 @@ namespace PixelDust.Audiophile
             SoundManager.StopSound(Data.SoundId);
         }
 
-        public AudiophilePlayResult PlayAt(Vector3 position, string overrideId = null)
+        public AudiophilePlayResult PlayAt(Vector3 position, ulong delay = 0, string overrideId = null)
         {
-            return SoundManager.ProcessSound(this, position, overrideId);
+            return SoundManager.ProcessSound(this, position, delay, overrideId);
         }
 
-        public AudiophilePlayResult PlayAt(Transform transform, string overrideId = null)
+        public AudiophilePlayResult PlayAt(Transform transform, ulong delay = 0, string overrideId = null)
         {
             Vector3 position = transform != null ? transform.position : Vector3.zero;
-            return PlayAt(position, overrideId);
+            return PlayAt(position, delay, overrideId);
         }
 
-        public AudiophilePlayResult Play(string overrideId = null)
+        public AudiophilePlayResult Play(ulong delay = 0, string overrideId = null)
         {
-            return PlayAt(Vector3.zero, overrideId);
+            return PlayAt(Vector3.zero, delay, overrideId);
         }
     }
 }

@@ -35,7 +35,7 @@ namespace PixelDust.Audiophile
 #endif
         }
 
-        public void Play(SoundEventData soundEventData, string id)
+        public void Play(SoundEventData soundEventData, ulong delay, string id)
         {
             seData = soundEventData;
             this.loop = soundEventData.Loop;
@@ -73,7 +73,7 @@ namespace PixelDust.Audiophile
             if (clip != null)
             {
                 this.gameObject.name = clip.name + " - vol: " + audioSource.volume + " - pitch: " + audioSource.pitch;
-                audioSource.Play();
+                audioSource.PlayDelayed(delay);
                 this.isPlaying = true;
             }
         }
@@ -87,7 +87,7 @@ namespace PixelDust.Audiophile
                     if (loop)
                     {
                         onLooped?.Invoke();
-                        Play(seData, this.id);
+                        Play(seData, 0, this.id);
                         return;
                     }
                     Stop();

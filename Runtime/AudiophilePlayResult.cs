@@ -32,13 +32,13 @@ namespace PixelDust.Audiophile
             }
         }
 
-        public event Action onLoop;
+        public event Action<AudiophilePlayResult> onLoop;
 
         public AudiophilePlayResult(AudiophilePlayer audiophilePlayer)
         {
             this.audiophilePlayer = audiophilePlayer;
             this.audiophilePlayer.onStopped += OnStopped;
-            this.audiophilePlayer.onLooped += () => onLoop?.Invoke();
+            this.audiophilePlayer.onLooped += () => onLoop?.Invoke(this);
         }
 
         private void OnStopped()
