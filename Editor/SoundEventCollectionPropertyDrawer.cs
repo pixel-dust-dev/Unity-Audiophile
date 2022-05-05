@@ -39,7 +39,7 @@ namespace PixelDust.Audiophile
 
             position.height = EditorGUIUtility.singleLineHeight;
 
-            Rect headerRect = position;
+            Rect headerRect = EditorGUI.IndentedRect(position);
             headerRect.width -= SoundEventPropertyDrawer.PLAY_BUTTON_WIDTH * 2 + SoundEventPropertyDrawer.PLAY_BUTTON_GAP;
 
             //Get the data since we need to delete its managed reference if using a preset
@@ -52,6 +52,17 @@ namespace PixelDust.Audiophile
             GUIContent newLabel = label;
             Texture2D tex = Resources.Load("se-col") as Texture2D;
             newLabel.image = tex;
+
+            if (preset.objectReferenceValue != null)
+            {
+                var presetSO = new SerializedObject(preset.objectReferenceValue);
+                selDataProp = presetSO.FindProperty("data");
+            }
+
+            Rect playPos = position;
+            playPos.height = EditorGUIUtility.singleLineHeight;
+
+            SoundEventPropertyDrawer.DrawPlayStop(playPos, selDataProp, OnPlay, OnStop);
 
             if (preset.objectReferenceValue == null)
             {
@@ -73,19 +84,10 @@ namespace PixelDust.Audiophile
             }
             else
             {
-                EditorGUI.PropertyField(headerRect, preset, newLabel, true);
+                Rect presetRect = position;
+                presetRect.width -= SoundEventPropertyDrawer.PLAY_BUTTON_WIDTH * 2 + SoundEventPropertyDrawer.PLAY_BUTTON_GAP;
+                EditorGUI.PropertyField(presetRect, preset, newLabel, true);
             }
-
-            if (preset.objectReferenceValue != null)
-            {
-                var presetSO = new SerializedObject(preset.objectReferenceValue);
-                selDataProp = presetSO.FindProperty("data");
-            }
-
-            Rect playPos = position;
-            playPos.height = EditorGUIUtility.singleLineHeight;
-
-            SoundEventPropertyDrawer.DrawPlayStop(playPos, selDataProp, OnPlay, OnStop);
 
             EditorGUI.EndProperty();
         }
