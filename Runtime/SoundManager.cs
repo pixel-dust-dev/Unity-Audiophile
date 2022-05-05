@@ -140,8 +140,6 @@ namespace PixelDust.Audiophile
 
         public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, ulong delay = 0, string overrideId = null)
         {
-            delay = 2;
-
             var id = overrideId;
             if (string.IsNullOrEmpty(id))
             {
