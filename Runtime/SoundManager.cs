@@ -133,12 +133,12 @@ namespace PixelDust.Audiophile
         /// <param name="position"></param>
         /// <param name="overrideId"></param>
         /// <returns></returns>
-        public static AudiophilePlayResult ProcessSound(SoundEvent soundEvent, Vector3? position = null, ulong delay = 0, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEvent soundEvent, Vector3? position = null, float delay = 0, string overrideId = null)
         {
             return ProcessSound(soundEvent.Data, position, delay, overrideId);
         }
 
-        public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, ulong delay = 0, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, float delay = 0, string overrideId = null)
         {
             var id = overrideId;
             if (string.IsNullOrEmpty(id))

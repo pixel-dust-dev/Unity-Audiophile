@@ -35,7 +35,7 @@ namespace PixelDust.Audiophile
 #endif
         }
 
-        public void Play(SoundEventData soundEventData, ulong delay, string id)
+        public void Play(SoundEventData soundEventData, float delay, string id)
         {
             seData = soundEventData;
             this.loop = soundEventData.Loop;
