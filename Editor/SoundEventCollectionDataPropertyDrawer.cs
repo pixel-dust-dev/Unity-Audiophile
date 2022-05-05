@@ -35,9 +35,8 @@ namespace PixelDust.Audiophile
             Draw(pos, property, label, false);
         }
 
-        public static void Draw(Rect pos, SerializedProperty property, GUIContent label, bool embedded)
+        public static void Draw(Rect position, SerializedProperty property, GUIContent label, bool embedded)
         {
-            Rect position = pos;
             EditorGUI.BeginProperty(position, label, property);
 
             SoundEventCollectionData soundEventCollectionData = null;

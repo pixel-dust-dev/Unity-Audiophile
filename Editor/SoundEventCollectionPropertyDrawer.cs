@@ -33,10 +33,9 @@ namespace PixelDust.Audiophile
             return height;
         }
 
-        public override void OnGUI(Rect pos, SerializedProperty property, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            Rect position = EditorGUI.IndentedRect(pos);
-            EditorGUI.BeginProperty(pos, label, property);
+            EditorGUI.BeginProperty(position, label, property);
 
             position.height = EditorGUIUtility.singleLineHeight;
 
@@ -83,7 +82,7 @@ namespace PixelDust.Audiophile
                 selDataProp = presetSO.FindProperty("data");
             }
 
-            Rect playPos = pos;
+            Rect playPos = position;
             playPos.height = EditorGUIUtility.singleLineHeight;
 
             SoundEventPropertyDrawer.DrawPlayStop(playPos, selDataProp, OnPlay, OnStop);

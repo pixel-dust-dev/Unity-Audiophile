@@ -35,14 +35,13 @@ namespace PixelDust.Audiophile
             return height;
         }
 
-        public override void OnGUI(Rect pos, SerializedProperty property, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            Rect position = EditorGUI.IndentedRect(pos);
-            EditorGUI.BeginProperty(pos, label, property);
+            EditorGUI.BeginProperty(position, label, property);
 
             position.height = EditorGUIUtility.singleLineHeight;
 
-            Rect headerRect = position;
+            Rect headerRect = EditorGUI.IndentedRect(position);
             headerRect.width -= PLAY_BUTTON_WIDTH * 2 + PLAY_BUTTON_GAP;
 
             GUIContent newLabel = label;
@@ -53,42 +52,42 @@ namespace PixelDust.Audiophile
             SerializedProperty dataProp = property.FindPropertyRelative("data");
             SerializedProperty selDataProp = dataProp;
 
-            if (preset.objectReferenceValue == null)
-            {
-                property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
-                EditorGUI.EndFoldoutHeaderGroup();
-                pos.y += ExtraEditorGUIUtility.SingleLineHeight();
-
-                if (property.isExpanded)
-                {
-                    EditorGUI.indentLevel++;
-                    {
-
-                        EditorGUI.PropertyField(pos, preset, true);
-                        pos.y += ExtraEditorGUIUtility.SingleLineHeight();
-
-                        EditorGUI.PropertyField(pos, dataProp, true);
-                    }
-                    EditorGUI.indentLevel--;
-                }
-            }
-            else
-            {
-                EditorGUI.PropertyField(pos, preset, label, true);
-            }
-
-            
-
             if (preset.objectReferenceValue != null)
             {
                 var presetSO = new SerializedObject(preset.objectReferenceValue);
                 selDataProp = presetSO.FindProperty("data");
             }
 
-            Rect playPos = pos;
+            Rect playPos = position;
             playPos.height = EditorGUIUtility.singleLineHeight;
 
             DrawPlayStop(playPos, selDataProp);
+
+            if (preset.objectReferenceValue == null)
+            {
+                property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
+                EditorGUI.EndFoldoutHeaderGroup();
+                position.y += ExtraEditorGUIUtility.SingleLineHeight();
+
+                if (property.isExpanded)
+                {
+                    EditorGUI.indentLevel++;
+                    {
+
+                        EditorGUI.PropertyField(position, preset, true);
+                        position.y += ExtraEditorGUIUtility.SingleLineHeight();
+
+                        EditorGUI.PropertyField(position, dataProp, true);
+                    }
+                    EditorGUI.indentLevel--;
+                }
+            }
+            else
+            {
+                Rect presetRect = position;
+                presetRect.width -= PLAY_BUTTON_WIDTH * 2 + PLAY_BUTTON_GAP;
+                EditorGUI.PropertyField(presetRect, preset, label, true);
+            }
 
             EditorGUI.EndProperty();
         }

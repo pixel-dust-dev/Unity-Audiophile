@@ -49,7 +49,7 @@ namespace PixelDust.Audiophile
             return height;
         }
 
-        public override void OnGUI(Rect pos, SerializedProperty property, GUIContent label)
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             SoundEventData soundEventData;
             if (!PropertyDrawerUtility.GetTargetObjectOfProperty<SoundEventData>(property, out soundEventData))
@@ -58,7 +58,6 @@ namespace PixelDust.Audiophile
                 return;
             }
 
-            Rect position = pos;
             EditorGUI.BeginProperty(position, label, property);
 
             DrawData(ref position, property, soundEventData);
