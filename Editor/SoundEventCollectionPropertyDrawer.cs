@@ -35,7 +35,7 @@ namespace PixelDust.Audiophile
 
         public override void OnGUI(Rect pos, SerializedProperty property, GUIContent label)
         {
-            Rect position = pos;
+            Rect position = EditorGUI.IndentedRect(pos);
             EditorGUI.BeginProperty(pos, label, property);
 
             position.height = EditorGUIUtility.singleLineHeight;

@@ -126,7 +126,7 @@ namespace PixelDust.Audiophile
         {
             var standardSettingsProp = data.FindPropertyRelative("standardSettings");
 
-            Rect basicSectionPos = EditorGUI.IndentedRect(position);
+            Rect basicSectionPos = position;
             var minVolumeProp = standardSettingsProp.FindPropertyRelative("minVolume");
             var maxVolumeProp = standardSettingsProp.FindPropertyRelative("maxVolume");
             DrawRangeSlider(ref position, new GUIContent("Volume"), minVolumeProp, maxVolumeProp, 0, 1, AudiophileProjectSettings.VolDisplayMode);

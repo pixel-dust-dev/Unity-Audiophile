@@ -37,7 +37,7 @@ namespace PixelDust.Audiophile
 
         public override void OnGUI(Rect pos, SerializedProperty property, GUIContent label)
         {
-            Rect position = pos;
+            Rect position = EditorGUI.IndentedRect(pos);
             EditorGUI.BeginProperty(pos, label, property);
 
             position.height = EditorGUIUtility.singleLineHeight;
@@ -57,24 +57,24 @@ namespace PixelDust.Audiophile
             {
                 property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
                 EditorGUI.EndFoldoutHeaderGroup();
-                position.y += ExtraEditorGUIUtility.SingleLineHeight();
+                pos.y += ExtraEditorGUIUtility.SingleLineHeight();
 
                 if (property.isExpanded)
                 {
                     EditorGUI.indentLevel++;
                     {
 
-                        EditorGUI.PropertyField(position, preset, true);
-                        position.y += ExtraEditorGUIUtility.SingleLineHeight();
+                        EditorGUI.PropertyField(pos, preset, true);
+                        pos.y += ExtraEditorGUIUtility.SingleLineHeight();
 
-                        EditorGUI.PropertyField(position, dataProp, true);
+                        EditorGUI.PropertyField(pos, dataProp, true);
                     }
                     EditorGUI.indentLevel--;
                 }
             }
             else
             {
-                EditorGUI.PropertyField(headerRect, preset, label, true);
+                EditorGUI.PropertyField(pos, preset, label, true);
             }
 
             
