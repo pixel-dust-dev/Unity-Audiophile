@@ -28,7 +28,7 @@ namespace PixelDust.Audiophile
                 if (preset.objectReferenceValue == null)
                 {
                     height += EditorGUI.GetPropertyHeight(data);
-                    height += ExtraEditorGUIUtility.SingleLineHeight();
+                    height += EditorGUIUtility.standardVerticalSpacing;
                 }
             }
 
@@ -42,7 +42,8 @@ namespace PixelDust.Audiophile
             position.height = EditorGUIUtility.singleLineHeight;
 
             Rect headerRect = EditorGUI.IndentedRect(position);
-            headerRect.width -= PLAY_BUTTON_WIDTH * 2 + PLAY_BUTTON_GAP;
+            //headerRect.width -= PLAY_BUTTON_WIDTH * 2 + PLAY_BUTTON_GAP;
+            headerRect.width = EditorGUIUtility.labelWidth;
 
             GUIContent newLabel = label;
             Texture2D tex = Resources.Load("se") as Texture2D;
@@ -67,16 +68,19 @@ namespace PixelDust.Audiophile
             {
                 property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
                 EditorGUI.EndFoldoutHeaderGroup();
+
+                Rect presetRect = position;
+                presetRect.x += EditorGUIUtility.labelWidth;
+                presetRect.width -= (PLAY_BUTTON_WIDTH * 2 + PLAY_BUTTON_GAP + EditorGUIUtility.labelWidth);
+                EditorGUI.PropertyField(presetRect, preset, GUIContent.none, true);
                 position.y += ExtraEditorGUIUtility.SingleLineHeight();
+
+                //position.y += ExtraEditorGUIUtility.SingleLineHeight();
 
                 if (property.isExpanded)
                 {
                     EditorGUI.indentLevel++;
                     {
-
-                        EditorGUI.PropertyField(position, preset, true);
-                        position.y += ExtraEditorGUIUtility.SingleLineHeight();
-
                         EditorGUI.PropertyField(position, dataProp, true);
                     }
                     EditorGUI.indentLevel--;

@@ -26,7 +26,7 @@ namespace PixelDust.Audiophile
                 if (preset.objectReferenceValue == null)
                 {
                     height += EditorGUI.GetPropertyHeight(data);
-                    height += ExtraEditorGUIUtility.SingleLineHeight();
+                    height += EditorGUIUtility.standardVerticalSpacing;
                 }
             }
 
@@ -40,7 +40,8 @@ namespace PixelDust.Audiophile
             position.height = EditorGUIUtility.singleLineHeight;
 
             Rect headerRect = EditorGUI.IndentedRect(position);
-            headerRect.width -= SoundEventPropertyDrawer.PLAY_BUTTON_WIDTH * 2 + SoundEventPropertyDrawer.PLAY_BUTTON_GAP;
+            //headerRect.width -= SoundEventPropertyDrawer.PLAY_BUTTON_WIDTH * 2 + SoundEventPropertyDrawer.PLAY_BUTTON_GAP;
+            headerRect.width = EditorGUIUtility.labelWidth;
 
             //Get the data since we need to delete its managed reference if using a preset
             //And create its managed reference if not using a preset
@@ -68,15 +69,19 @@ namespace PixelDust.Audiophile
             {
                 property.isExpanded = EditorGUI.BeginFoldoutHeaderGroup(headerRect, property.isExpanded, newLabel);
                 EditorGUI.EndFoldoutHeaderGroup();
+
+                Rect presetRect = position;
+                presetRect.x += EditorGUIUtility.labelWidth;
+                presetRect.width -= (SoundEventPropertyDrawer.PLAY_BUTTON_WIDTH * 2 + SoundEventPropertyDrawer.PLAY_BUTTON_GAP + EditorGUIUtility.labelWidth);
+                EditorGUI.PropertyField(presetRect, preset, GUIContent.none, true);
                 position.y += ExtraEditorGUIUtility.SingleLineHeight();
+
+                //position.y += ExtraEditorGUIUtility.SingleLineHeight();
 
                 if (property.isExpanded)
                 {
                     EditorGUI.indentLevel++;
                     {
-                        EditorGUI.PropertyField(position, preset, true);
-                        position.y += ExtraEditorGUIUtility.SingleLineHeight();
-
                         EditorGUI.PropertyField(position, dataProp, true);
                     }
                     EditorGUI.indentLevel--;
