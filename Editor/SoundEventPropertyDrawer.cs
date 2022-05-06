@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bewildered.Editor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -44,6 +45,15 @@ namespace PixelDust.Audiophile
             Rect headerRect = EditorGUI.IndentedRect(position);
             //headerRect.width -= PLAY_BUTTON_WIDTH * 2 + PLAY_BUTTON_GAP;
             headerRect.width = EditorGUIUtility.labelWidth;
+
+            if (property.IsArrayElement())
+            {
+                var soundEvent = property.GetValue<SoundEvent>();
+                if(soundEvent.Data.StandardSettings.MinVolume == 0 && soundEvent.Data.StandardSettings.MaxVolume == 0)
+                {
+                    soundEvent.Data.Reset();
+                }
+            }
 
             GUIContent newLabel = label;
             Texture2D tex = Resources.Load("se") as Texture2D;

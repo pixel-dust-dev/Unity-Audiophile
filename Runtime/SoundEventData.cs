@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using WeightedObjects;
 
 namespace PixelDust.Audiophile
@@ -29,6 +30,13 @@ namespace PixelDust.Audiophile
         [SerializeField]
         private SpatialSettings spatialSettings;
         public SpatialSettings SpatialSettings => spatialSettings;
+
+        public void Reset()
+        {
+            this.standardSettings.Reset();
+            this.advancedSettings.Reset();
+            this.spatialSettings.Reset();
+        }
     }
 
     [System.Serializable]
@@ -57,6 +65,14 @@ namespace PixelDust.Audiophile
         [SerializeField]
         private UnityEngine.Audio.AudioMixerGroup group;
         public UnityEngine.Audio.AudioMixerGroup Group => group;
+
+        internal void Reset()
+        {
+            this.minVolume = 1;
+            this.maxVolume = 1;
+            this.minPitch = 1;
+            this.maxPitch = 1;
+        }
     }
 
     [System.Serializable]
@@ -100,6 +116,15 @@ namespace PixelDust.Audiophile
         [SerializeField]
         private float maxDistance = 500;
         public float MaxDistance => maxDistance;
+
+        internal void Reset()
+        {
+            this.maxDistance = 500;
+            this.minDistance = 1;
+            this.spread = 0;
+            this.dopplerLevel = 1;
+            this.is3D = false;
+        }
         #endregion
     }
 
@@ -122,5 +147,10 @@ namespace PixelDust.Audiophile
         [Range(0, 1.1f)]
         private float reverbZoneMix = 1;
         public float ReverbZoneMix => reverbZoneMix;
+
+        internal void Reset()
+        {
+            this.reverbZoneMix = 1;
+        }
     }
 }

@@ -2,9 +2,41 @@
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using WeightedObjects;
+using Bewildered.Editor;
+using System.Collections.Generic;
 
 namespace PixelDust.Audiophile
 {
+    [CustomPropertyDrawer(typeof(WeightedObjectCollection<SoundEvent>))]
+    public class WeightedObjectCollection : WeightedObjectCollectionDrawer
+    {
+        static bool arrayReset = false;
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            //Color o_color = GUI.color;
+            //GUI.color = Color.green;
+            base.OnGUI(position, property, label);
+            //GUI.color = o_color;
+
+            if(arrayReset)
+            {
+                arrayReset = false;
+                var weightedObjects = property.FindPropertyRelative("weightedObjects");
+                for (int i = 0; i < weightedObjects.arraySize; i++)
+                {
+                    var weightedObject = weightedObjects.GetArrayElementAtIndex(0).GetValue<WeightedObject<SoundEvent>>();
+                    weightedObject.Contents.Data.Reset();
+                }
+            }
+        }
+        public override void ResetArray()
+        {
+            base.ResetArray();
+            arrayReset = true;
+        }
+    }
+
     [CustomPropertyDrawer(typeof(SoundEventData))]
     public class SoundEventDataPropertyDrawer : PropertyDrawer
     {
@@ -51,6 +83,9 @@ namespace PixelDust.Audiophile
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            var o_color = GUI.color;
+
+
             SoundEventData soundEventData;
             if (!PropertyDrawerUtility.GetTargetObjectOfProperty<SoundEventData>(property, out soundEventData))
             {
@@ -61,6 +96,8 @@ namespace PixelDust.Audiophile
             EditorGUI.BeginProperty(position, label, property);
 
             DrawData(ref position, property, soundEventData);
+
+            GUI.color = o_color;
 
             EditorGUI.EndProperty();
         }
