@@ -103,6 +103,9 @@ namespace PixelDust.Audiophile
             this.onStopped?.Invoke();
             this.onStopped = null;
             this.onLooped = null;
+
+            this.SetOverrideVolume(null);
+            this.SetOverridePitch(null);
         }
 
         internal void SetOverrideVolume(float? volume)
