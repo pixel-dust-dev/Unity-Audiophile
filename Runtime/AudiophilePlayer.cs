@@ -110,19 +110,18 @@ namespace PixelDust.Audiophile
 
         internal void SetOverrideVolume(float? volume)
         {
+            this.overrideVolume = volume;
             if(volume != null)
             {
-                this.overrideVolume = volume;
                 this.audioSource.volume = volume.Value;
-
             }
         }
 
         internal void SetOverridePitch(float? pitch)
         {
+            this.overridePitch = pitch;
             if (pitch != null)
             {
-                this.overridePitch = pitch;
                 this.audioSource.pitch = pitch.Value;
             }
         }
