@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PixelDust.Audiophile
 {
@@ -17,9 +18,12 @@ namespace PixelDust.Audiophile
         bool isPlaying = false;
         public bool IsPlaying => isPlaying;
 
+
+
         SoundEventData seData = null;
         private float? overrideVolume = null;
         private float? overridePitch = null;
+        public bool Persist = false;
 
         public event Action onStopped;
         public event Action onLooped;
@@ -33,6 +37,17 @@ namespace PixelDust.Audiophile
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.update += Update;
 #endif
+            UnityEngine.SceneManagement.SceneManager.activeSceneChanged += ActiveSceneChanged;
+        }
+
+
+
+        private void ActiveSceneChanged(Scene scene1, Scene scene2)
+        {
+            if(!Persist)
+            {
+                this.Stop();
+            }
         }
 
         public void Play(SoundEventData soundEventData, float delay, string id)
@@ -106,6 +121,7 @@ namespace PixelDust.Audiophile
 
             this.SetOverrideVolume(null);
             this.SetOverridePitch(null);
+            this.SetPersist(false);
         }
 
         internal void SetOverrideVolume(float? volume)
@@ -124,6 +140,11 @@ namespace PixelDust.Audiophile
             {
                 this.audioSource.pitch = pitch.Value;
             }
+        }
+
+        internal void SetPersist(bool value)
+        {
+            this.Persist = value;
         }
     }
 }
