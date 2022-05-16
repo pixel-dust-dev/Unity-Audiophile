@@ -8,5 +8,20 @@ namespace PixelDust.Audiophile
         [SerializeField]
         SoundEventCollectionData data;
         public SoundEventCollectionData Data => data;
+
+        public void Stop()
+        {
+            Data.Stop();
+        }
+
+        public void Play()
+        {
+            Data.Play();
+        }
+
+        public void PlayDelayed(float delay)
+        {
+            Data.Play(delay);
+        }
     }
 }

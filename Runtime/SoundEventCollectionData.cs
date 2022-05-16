@@ -15,9 +15,24 @@ namespace PixelDust.Audiophile
         private string soundId;
         public string SoundId => soundId;
 
-        public void PlayAt(Vector3 position, ulong delay = 0, string overrideId = null)
+        public AudiophilePlayResult Play()
         {
-            soundEventCollection.GetRandom()?.PlayAt(position, delay, overrideId != null ? overrideId : SoundId);
+            return PlayAt(Vector3.zero);
+        }
+
+        public AudiophilePlayResult Play(float delay)
+        {
+            return PlayAt(Vector3.zero, delay);
+        }
+
+        public AudiophilePlayResult PlayAt(Vector3 position, float delay = 0, string overrideId = null)
+        {
+            return soundEventCollection.GetRandom()?.PlayAt(position, delay, overrideId != null ? overrideId : SoundId);
+        }
+
+        public void Stop()
+        {
+            SoundManager.StopSound(this.SoundId);
         }
     }
 }
