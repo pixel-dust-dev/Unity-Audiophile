@@ -32,6 +32,18 @@ namespace PixelDust.Audiophile
             }
         }
 
+        public bool Persist
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.Persist : false;
+            }
+            set
+            {
+                this.audiophilePlayer.SetPersist(value);
+            }
+        }
+
         public event Action<AudiophilePlayResult> onLoop;
 
         public AudiophilePlayResult(AudiophilePlayer audiophilePlayer)

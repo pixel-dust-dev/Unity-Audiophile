@@ -37,6 +37,27 @@ namespace PixelDust.Audiophile
             this.advancedSettings.Reset();
             this.spatialSettings.Reset();
         }
+
+        public void Stop()
+        {
+            SoundManager.StopSound(this.SoundId);
+        }
+
+        public AudiophilePlayResult PlayAt(Vector3 position, float delay = 0, string overrideId = null)
+        {
+            return SoundManager.ProcessSound(this, position, delay, overrideId);
+        }
+
+        public AudiophilePlayResult PlayAt(Transform transform, float delay = 0, string overrideId = null)
+        {
+            Vector3 position = transform != null ? transform.position : Vector3.zero;
+            return PlayAt(position, delay, overrideId);
+        }
+
+        public AudiophilePlayResult Play(float delay = 0, string overrideId = null)
+        {
+            return PlayAt(Vector3.zero, delay, overrideId);
+        }
     }
 
     [System.Serializable]
