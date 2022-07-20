@@ -95,7 +95,9 @@ namespace PixelDust.Audiophile
 
         public void Update()
         {
-            if(isPlaying)
+            if (!this.enabled) { return; }
+
+            if (isPlaying)
             {
                 if(this.audioSource != null && !this.audioSource.isPlaying)
                 {
