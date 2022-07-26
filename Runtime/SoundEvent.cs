@@ -22,15 +22,15 @@ namespace PixelDust.Audiophile
             Data.Stop();
         }
 
-        public AudiophilePlayResult PlayAt(Vector3 position, float delay = 0, string overrideId = null)
+        public AudiophilePlayResult PlayAt(Vector3 position, float delay = 0, string overrideId = null, Transform followTransform = null)
         {
-            return Data.PlayAt(position, delay, overrideId);
+            return Data.PlayAt(position, delay, overrideId, followTransform);
         }
 
-        public AudiophilePlayResult PlayAt(Transform transform, float delay = 0, string overrideId = null)
+        public AudiophilePlayResult PlayAt(Transform transform, float delay = 0, string overrideId = null, bool follow = false)
         {
             Vector3 position = transform != null ? transform.position : Vector3.zero;
-            return Data.PlayAt(position, delay, overrideId);
+            return Data.PlayAt(position, delay, overrideId, follow ? transform : null);
         }
 
         public AudiophilePlayResult Play(float delay = 0, string overrideId = null)

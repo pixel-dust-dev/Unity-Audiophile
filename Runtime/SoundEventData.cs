@@ -43,9 +43,9 @@ namespace PixelDust.Audiophile
             SoundManager.StopSound(this.SoundId);
         }
 
-        public AudiophilePlayResult PlayAt(Vector3 position, float delay = 0, string overrideId = null)
+        public AudiophilePlayResult PlayAt(Vector3 position, float delay = 0, string overrideId = null, Transform followTransform = null)
         {
-            return SoundManager.ProcessSound(this, position, delay, overrideId);
+            return SoundManager.ProcessSound(this, position, delay, overrideId, followTransform);
         }
 
         public AudiophilePlayResult PlayAt(Transform transform, float delay = 0, string overrideId = null)

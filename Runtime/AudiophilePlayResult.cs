@@ -16,7 +16,7 @@ namespace PixelDust.Audiophile
             }
             set
             {
-                this.audiophilePlayer.SetOverrideVolume(value);
+                this.audiophilePlayer?.SetOverrideVolume(value);
             }
         }
 
@@ -28,7 +28,7 @@ namespace PixelDust.Audiophile
             }
             set
             {
-                this.audiophilePlayer.SetOverridePitch(value);
+                this.audiophilePlayer?.SetOverridePitch(value);
             }
         }
 
@@ -40,7 +40,19 @@ namespace PixelDust.Audiophile
             }
             set
             {
-                this.audiophilePlayer.SetPersist(value);
+                this.audiophilePlayer?.SetPersist(value);
+            }
+        }
+
+        public Transform FollowTransform
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.FollowTransform : null;
+            }
+            set
+            {
+                this.audiophilePlayer?.SetFollowTransform(value);
             }
         }
 

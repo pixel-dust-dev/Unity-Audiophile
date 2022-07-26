@@ -133,12 +133,12 @@ namespace PixelDust.Audiophile
         /// <param name="position"></param>
         /// <param name="overrideId"></param>
         /// <returns></returns>
-        public static AudiophilePlayResult ProcessSound(SoundEvent soundEvent, Vector3? position = null, float delay = 0, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEvent soundEvent, Vector3? position = null, float delay = 0, string overrideId = null, Transform followTransform = null)
         {
-            return ProcessSound(soundEvent.Data, position, delay, overrideId);
+            return ProcessSound(soundEvent.Data, position, delay, overrideId, followTransform);
         }
 
-        public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, float delay = 0, string overrideId = null)
+        public static AudiophilePlayResult ProcessSound(SoundEventData soundEventData, Vector3? position = null, float delay = 0, string overrideId = null, Transform followTransform = null)
         {
             var id = overrideId;
             if (string.IsNullOrEmpty(id))
@@ -155,7 +155,7 @@ namespace PixelDust.Audiophile
             if (audiophilePlayer == null) { Debug.Log("Pool overflowed."); return null; }
 
             audiophilePlayer.transform.position = position.HasValue ? position.Value : Vector3.zero;
-
+            audiophilePlayer.SetFollowTransform(followTransform);
             audiophilePlayer.Play(soundEventData, delay, id);
 
             if (!playingAudioPhilePlayers.ContainsKey(id))

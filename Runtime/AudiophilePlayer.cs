@@ -19,11 +19,11 @@ namespace PixelDust.Audiophile
         public bool IsPlaying => isPlaying;
 
 
-
         SoundEventData seData = null;
         private float? overrideVolume = null;
         private float? overridePitch = null;
         public bool Persist = false;
+        public Transform FollowTransform = null;
 
         public event Action onStopped;
         public event Action onLooped;
@@ -98,6 +98,11 @@ namespace PixelDust.Audiophile
             if (this == null) { return; }
             if (!this.enabled) { return; }
 
+            if(this.FollowTransform != null)
+            {
+                this.transform.position = this.FollowTransform.position;
+            }
+
             if (isPlaying)
             {
                 if(this.audioSource != null && !this.audioSource.isPlaying)
@@ -125,6 +130,7 @@ namespace PixelDust.Audiophile
             this.SetOverrideVolume(null);
             this.SetOverridePitch(null);
             this.SetPersist(false);
+            this.SetFollowTransform(null);
         }
 
         internal void SetOverrideVolume(float? volume)
@@ -148,6 +154,11 @@ namespace PixelDust.Audiophile
         internal void SetPersist(bool value)
         {
             this.Persist = value;
+        }
+
+        internal void SetFollowTransform(Transform followTransform)
+        {
+            this.FollowTransform = followTransform;
         }
     }
 }
