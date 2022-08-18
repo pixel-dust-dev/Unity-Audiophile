@@ -44,6 +44,14 @@ namespace PixelDust.Audiophile
             }
         }
 
+        public float SoundLength
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.audioSource.clip.length / Math.Abs(audiophilePlayer.audioSource.pitch): 0;
+            }
+        }
+
         public Transform FollowTransform
         {
             get
