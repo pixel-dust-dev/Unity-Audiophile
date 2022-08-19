@@ -35,28 +35,11 @@ namespace PixelDust.Audiophile
 
         #region Creation
 #if UNITY_EDITOR
-        public static string RootPath
-        {
-            get
-            {
-                var g = UnityEditor.AssetDatabase.FindAssets($"t:Script {Name}");
-                return UnityEditor.AssetDatabase.GUIDToAssetPath(g[0]);
-            }
-        }
-
-        public static string Directory
-        {
-            get
-            {
-                return System.IO.Path.GetDirectoryName(RootPath);
-            }
-        }
-
         public static string FullPath
         {
             get
             {
-                return $"{Directory}/Resources/{Name}.asset";
+                return $"Assets/Resources/{Name}.asset";
             }
         }
 #endif
@@ -82,9 +65,9 @@ namespace PixelDust.Audiophile
                     {
                         Debug.LogError("Audiophile: No Settings Exist");
 #if UNITY_EDITOR
-                        if (!UnityEditor.AssetDatabase.IsValidFolder(Directory))
+                        if (!UnityEditor.AssetDatabase.IsValidFolder("Assets/Resources"))
                         {
-                            UnityEditor.AssetDatabase.CreateFolder(Directory, "Resources");
+                            UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
                         }
                         instance = CreateInstance<AudiophileProjectSettings>();
                         UnityEditor.AssetDatabase.CreateAsset(instance, FullPath); 
