@@ -13,7 +13,8 @@ namespace PixelDust.Audiophile
         private string id;
 
         public bool loop;
-        public AudioSource audioSource;
+        public AudioSource AudioSource => audioSource;
+        internal AudioSource audioSource;
 
         bool isPlaying = false;
         public bool IsPlaying => isPlaying;
@@ -22,6 +23,7 @@ namespace PixelDust.Audiophile
         SoundEventData seData = null;
         private float? overrideVolume = null;
         private float? overridePitch = null;
+        private bool? overrideLoop = null;
         public bool Persist = false;
         public Transform FollowTransform = null;
 
@@ -131,6 +133,15 @@ namespace PixelDust.Audiophile
             this.SetOverridePitch(null);
             this.SetPersist(false);
             this.SetFollowTransform(null);
+        }
+
+        internal void SetOverrideLoop(bool? loop)
+        {
+            this.overrideLoop = loop;
+            if(loop != null)
+            {
+                this.loop = loop.Value;
+            }
         }
 
         internal void SetOverrideVolume(float? volume)

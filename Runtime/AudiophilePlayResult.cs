@@ -6,7 +6,19 @@ namespace PixelDust.Audiophile
     public class AudiophilePlayResult
     {
         private AudiophilePlayer audiophilePlayer;
-        private AudiophilePlayer AudiophilePlayer => audiophilePlayer;
+        public AudiophilePlayer AudiophilePlayer => audiophilePlayer;
+
+        public bool? Loop
+        {
+            get
+            {
+                return audiophilePlayer ? audiophilePlayer.loop : false;
+            }
+            set
+            {
+                this.audiophilePlayer?.SetOverrideLoop(value);
+            }
+        }
 
         public float? Volume
         {
