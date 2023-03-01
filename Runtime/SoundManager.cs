@@ -99,7 +99,6 @@ namespace PixelDust.Audiophile
                 {
                     audioSource.Stop();
                 }
-                playingAudioPhilePlayers.Remove(id);
             }
         }
 
