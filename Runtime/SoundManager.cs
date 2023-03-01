@@ -158,7 +158,10 @@ namespace PixelDust.Audiophile
         /// <returns></returns>
         internal static bool RemoveAudiophilePlayer(string id, AudiophilePlayer audiophilePlayer)
         {
-            if(playingAudioPhilePlayers.ContainsKey(id))
+            if (id == null) { return false; }
+            if (audiophilePlayer == null) { return false; }
+
+            if (playingAudioPhilePlayers.ContainsKey(id))
             {
                 return playingAudioPhilePlayers[id].Remove(audiophilePlayer);
             }
