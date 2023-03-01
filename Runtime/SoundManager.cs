@@ -95,9 +95,11 @@ namespace PixelDust.Audiophile
         {
             if (playingAudioPhilePlayers.ContainsKey(id))
             {
-                foreach (var audioSource in playingAudioPhilePlayers[id])
+                var playerList = playingAudioPhilePlayers[id];
+                for (int i = playerList.Count - 1; i >= 0; i--)
                 {
-                    audioSource.Stop();
+                    var audioPlayer = playerList[i];
+                    audioPlayer.Stop();
                 }
             }
         }
