@@ -1,6 +1,6 @@
 {
   "name": "com.pixeldust.com.pixel-dust.audiophile",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "displayName": "PixelDust Audiophile (alpha)",
   "description": "A productivity tool to speed up SFX workflows in Unity!",
   "unity": "2020.1",

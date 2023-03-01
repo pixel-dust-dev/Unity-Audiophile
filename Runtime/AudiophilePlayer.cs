@@ -133,6 +133,8 @@ namespace PixelDust.Audiophile
             this.SetOverridePitch(null);
             this.SetPersist(false);
             this.SetFollowTransform(null);
+
+            SoundManager.RemoveAudiophilePlayer(this.id, this);
         }
 
         internal void SetOverrideLoop(bool? loop)

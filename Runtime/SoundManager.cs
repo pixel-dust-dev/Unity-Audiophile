@@ -104,6 +104,30 @@ namespace PixelDust.Audiophile
         }
 
         /// <summary>
+        /// Returns true if Id has any sounds playing
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static bool IsPlaying(string id)
+        {
+            return GetPlayingSounds(id).Count > 0;
+        }
+
+        /// <summary>
+        /// Returns a list of all playing sounds that are mapped to the id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static List<AudiophilePlayer> GetPlayingSounds(string id)
+        {
+            if(playingAudioPhilePlayers.ContainsKey(id))
+            {
+                return playingAudioPhilePlayers[id];
+            }
+            return new List<AudiophilePlayer>();
+        }
+
+        /// <summary>
         /// Processes a list of sound events. Will play every single sound event.
         /// </summary>
         /// <param name="soundEvents"></param>
@@ -124,6 +148,22 @@ namespace PixelDust.Audiophile
             }
 
             return audiophilePlayResults;
+        }
+
+        /// <summary>
+        /// Removes a specific AudiophilePlayer from the list corresponding to its Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="audiophilePlayer"></param>
+        /// <returns></returns>
+        internal static bool RemoveAudiophilePlayer(string id, AudiophilePlayer audiophilePlayer)
+        {
+            if(playingAudioPhilePlayers.ContainsKey(id))
+            {
+                return playingAudioPhilePlayers[id].Remove(audiophilePlayer);
+            }
+
+            return false;
         }
 
         /// <summary>
