@@ -55,7 +55,7 @@ namespace PixelDust.Audiophile
         public void Play(SoundEventData soundEventData, float delay, string id)
         {
             seData = soundEventData;
-            this.loop = soundEventData.Loop;
+            this.loop = overrideLoop ?? soundEventData.Loop;
             audioSource.loop = false;
 
             this.id = id;
@@ -112,6 +112,7 @@ namespace PixelDust.Audiophile
                     if (loop)
                     {
                         onLooped?.Invoke();
+
                         Play(seData, 0, this.id);
                         return;
                     }
