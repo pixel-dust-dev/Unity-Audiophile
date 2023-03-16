@@ -206,29 +206,5 @@ namespace PixelDust.AudiophileEditor
         }
 
         #endregion
-        public static List<AudioMixerGroup> GetMixerGroups()
-        {
-            var assetPath = AssetDatabase.GetAssetPath(AudiophileProjectSettings.AudioMixer);
-            var assetsAtPath = AssetDatabase.LoadAllAssetRepresentationsAtPath(assetPath);
-
-            List<AudioMixerGroup> groups = new List<AudioMixerGroup>();
-
-            foreach (var assetRepresentation in assetsAtPath)
-            {
-                //AudioMixerSnapshot snapshot = assetRepresentation as AudioMixerSnapshot;
-                //if (snapshot != null)
-                //{
-                //    Debug.Log($"mixer snapshots: {snapshot.name}");
-                //}
-
-                AudioMixerGroup mixerGroup = assetRepresentation as AudioMixerGroup;
-                if (mixerGroup != null)
-                {
-                    groups.Add(mixerGroup);
-                }
-            }
-
-            return groups;
-        }
     }
 }
