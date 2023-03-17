@@ -130,6 +130,7 @@ namespace PixelDust.Audiophile
             this.onStopped = null;
             this.onLooped = null;
 
+            this.SetOverrideLoop(null);
             this.SetOverrideVolume(null);
             this.SetOverridePitch(null);
             this.SetPersist(false);
