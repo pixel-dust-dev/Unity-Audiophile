@@ -14,7 +14,7 @@ namespace PixelDust.Audiophile
 
         //[SerializeReference] Was too much trouble
         [SerializeField]
-        private SoundEventData data;
+        private SoundEventData data = new SoundEventData();
         public SoundEventData Data => preset != null ? preset.Data : data;
 
         public void Stop()
