@@ -37,5 +37,10 @@ namespace PixelDust.Audiophile
         {
             return Data.PlayAt(Vector3.zero, delay, overrideId);
         }
+
+        public SoundEvent()
+        {
+            this.data = new SoundEventData();
+        }
     }
 }

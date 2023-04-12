@@ -20,15 +20,15 @@ namespace PixelDust.Audiophile
         public string SoundId => soundId;
 
         [SerializeField]
-        private StandardSettings standardSettings;
+        private StandardSettings standardSettings = new StandardSettings();
         public StandardSettings StandardSettings => standardSettings;
 
         [SerializeField]
-        private AdvancedSettings advancedSettings;
+        private AdvancedSettings advancedSettings = new AdvancedSettings();
         public AdvancedSettings AdvancedSettings => advancedSettings;
 
         [SerializeField]
-        private SpatialSettings spatialSettings;
+        private SpatialSettings spatialSettings = new SpatialSettings();
         public SpatialSettings SpatialSettings => spatialSettings;
 
         public void Reset()
@@ -57,6 +57,11 @@ namespace PixelDust.Audiophile
         public AudiophilePlayResult Play(float delay = 0, string overrideId = null)
         {
             return PlayAt(Vector3.zero, delay, overrideId);
+        }
+
+        public SoundEventData()
+        {
+            Reset();
         }
     }
 
@@ -87,7 +92,7 @@ namespace PixelDust.Audiophile
         private UnityEngine.Audio.AudioMixerGroup group;
         public UnityEngine.Audio.AudioMixerGroup Group => group;
 
-        internal void Reset()
+        public void Reset()
         {
             this.minVolume = 1;
             this.maxVolume = 1;
@@ -138,7 +143,7 @@ namespace PixelDust.Audiophile
         private float maxDistance = 500;
         public float MaxDistance => maxDistance;
 
-        internal void Reset()
+        public void Reset()
         {
             this.maxDistance = 500;
             this.minDistance = 1;
@@ -169,7 +174,7 @@ namespace PixelDust.Audiophile
         private float reverbZoneMix = 1;
         public float ReverbZoneMix => reverbZoneMix;
 
-        internal void Reset()
+        public void Reset()
         {
             this.reverbZoneMix = 1;
         }
