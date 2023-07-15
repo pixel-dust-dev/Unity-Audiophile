@@ -56,8 +56,10 @@ namespace PixelDust.Audiophile
             }
 
             GUIContent newLabel = label;
-            Texture2D tex = Resources.Load("se") as Texture2D;
-            newLabel.image = tex;
+
+            //TODO: Add back
+            //Texture2D tex = Resources.Load("se") as Texture2D;
+            //newLabel.image = tex;
             
             var preset = property.FindPropertyRelative("preset");
             SerializedProperty dataProp = property.FindPropertyRelative("data");

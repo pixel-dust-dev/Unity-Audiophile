@@ -51,8 +51,10 @@ namespace PixelDust.Audiophile
             var preset = property.FindPropertyRelative("preset");
 
             GUIContent newLabel = label;
-            Texture2D tex = Resources.Load("se-col") as Texture2D;
-            newLabel.image = tex;
+
+            //TODO: Add back
+            //Texture2D tex = Resources.Load("se-col") as Texture2D;
+            //newLabel.image = tex;
 
             if (preset.objectReferenceValue != null)
             {
